@@ -1,20 +1,20 @@
-#Tech Companies List  in NEPAL
+# Tech Companies List  in NEPAL
 It's Spring boot project with Jersey.
 
 
-#Tech Stack
+# Tech Stack
  - Spring boot
  - Jersey
  - RestTemplate
  - Json
 
-#Development
+#  Development
 ```
 http://localhost:8080/companies
 ```
 
-#License
+# License
 MIT
 
-#Reference
+# Reference
 - [tech-companies-in-nepal](https://github.com/mesaugat/tech-companies-in-nepal)
