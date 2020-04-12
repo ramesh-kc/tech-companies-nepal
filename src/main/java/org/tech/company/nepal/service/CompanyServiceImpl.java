@@ -1,27 +1,39 @@
 package org.tech.company.nepal.service;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import org.springframework.http.ResponseEntity;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.tech.company.nepal.config.RestTemplateConfig;
 import org.tech.company.nepal.model.Company;
+import org.tech.company.nepal.repository.CompanyRepository;
 
+@Slf4j
 @Service
 public class CompanyServiceImpl implements CompanyService {
 
-  private final RestTemplateConfig restTemplateConfig;
+  private final CompanyRepository companyRepository;
 
-  private static final String RESOURCE_PATH = "https://tech-companies-in-nepal.herokuapp.com/api/companies";
-
-  public CompanyServiceImpl(RestTemplateConfig restTemplateConfig) {
-    this.restTemplateConfig = restTemplateConfig;
+  public CompanyServiceImpl(CompanyRepository companyRepository) {
+    this.companyRepository = companyRepository;
   }
 
   @Override
   public List<Company> findListOfCompanies() {
-    ResponseEntity<Company[]> companyResponseEntity = restTemplateConfig.buildRestTemplate().getForEntity(RESOURCE_PATH, Company[].class);
-    return companyResponseEntity.getBody() != null ? Arrays.asList(companyResponseEntity.getBody()) : Collections.emptyList();
+    Iterable<Company> iterable = companyRepository.findAll();
+    return StreamSupport.stream(iterable.spliterator(), false).collect(Collectors.toList());
+  }
+
+  @Override
+  public void save(Company company) {
+    companyRepository.save(company);
+    log.info("Successfully saved to the database");
+  }
+
+  @Override
+  public Company findById(Long id) {
+    Optional<Company> company = companyRepository.findById(id);
+    return company.orElse(null);
   }
 }
