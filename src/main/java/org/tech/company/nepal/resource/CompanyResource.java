@@ -8,6 +8,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.tech.company.nepal.exception.CompanyException;
 import org.tech.company.nepal.model.Company;
 import org.tech.company.nepal.service.CompanyServiceImpl;
 
@@ -25,13 +26,13 @@ public class CompanyResource {
   }
 
   @POST
-  public void save(Company company) {
+  public void save(Company company) throws CompanyException {
     companyService.save(company);
   }
 
   @GET
   @Path("/{id}")
-  public Company findCompanyById(@PathParam("id") Long id) {
+  public Company findCompanyById(@PathParam("id") Long id) throws CompanyException {
     return companyService.findById(id);
   }
 }

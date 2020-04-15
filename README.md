@@ -26,11 +26,11 @@ http://localhost:8080/companies
 ```
 docker pull mysql:8.0.19
 ```
-- Create the docker container name as `mysql-standalone` as following
+- Create the docker container name as `mysql-standalone` for Mysql which will be used as connection url to the project. `mysql:8.0.19` is image and tag version.
 ```
  docker run --name mysql-standalone -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=test -e MYSQL_USER=sa -e MYSQL_PASSWORD=password -d mysql:8.0.19
 ```
-- Change the configuration for mysql at `application.properties` file
+- Change the configuration for mysql at `application.properties` file. `localhost` will be change to `mysql-standalone`.
 ```
 ## spring.datasource.url=jdbc:mysql://localhost:3306/companies?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
 spring.datasource.url=jdbc:mysql://mysql-standalone:3306/companies?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
@@ -43,7 +43,7 @@ docker build -f Dockerfile -t tech-companies-nepal .
 ```
  docker run -p 8085:8085 --name tech-companies-nepal --link mysql-standalone:mysql -d tech-companies-nepal
 ```
-- if you want to see the logs what's going with mysql and spring boot
+- if you want to see the logs what's going with mysql and spring boot, use the following docker commands.
 ```
  docker logs tech-companies-nepal
  docker logs mysql-standalone
